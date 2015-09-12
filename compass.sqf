@@ -1,3 +1,13 @@
+if (hasInterface) then
+{
+	with currentNamespace do
+		{
+			while {active} do
+			{
+			waitUntil {time > 0};
+			disableSerialization;
+			_ctrlIdCount = 12301;
+			_controls = [];
 _addCtrl =
 {
 	_type = _this select 0;
@@ -20,11 +30,9 @@ _addCtrl =
    
 	_toCreate
 };
-
-
-_mavCurrentTarget = player;
+_mavCurrentTarget = air;
 _markerMavCurrentTargetPos = visiblePositionASL _mavCurrentTarget;
-_compassSize = 1;
+_compassSize = 3;
 
 _northLocationX = _markerMavCurrentTargetPos select 0;
 _northLocationY = (_markerMavCurrentTargetPos select 1) + _compassSize;
@@ -45,31 +53,43 @@ if (surfaceIsWater [visiblePositionASL _mavCurrentTarget select 0,visiblePositio
 
 //=====NORTH
 _northOnDisplayPos = worldToScreen [_northLocationX,_northLocationY,_zLocation];
-_northDisplayText = "N";
 hint format["x: %1, y: %2", _northOnDisplayPos select 0, _northOnDisplayPos select 1];
-_north = ["RscText", "N", _northOnDisplayPos select 0, _northOnDisplayPos select 1, 0.1, 0.1] call _addCtrl;
-		   /*
-		   (_dspl displayCtrl 2020662) ctrlSetStructuredText parseText _northDisplayText;
-		   (_dspl displayCtrl 2020662) ctrlSetPosition _northOnDisplayPos;
-		   (_dspl displayCtrl 2020662) ctrlCommit 0;
- 
-		   //=====SOUTH
-		   _southOnDisplayPos = worldToScreen [_southLocationX,_southLocationY,_zLocation];
-		   _southDisplayText = "S";
-		   (_dspl displayCtrl 2020663) ctrlSetStructuredText parseText _southDisplayText;
-		   (_dspl displayCtrl 2020663) ctrlSetPosition _southOnDisplayPos;
-		   (_dspl displayCtrl 2020663) ctrlCommit 0;
- 
-		   //=====WEST
-		   _westOnDisplayPos = worldToScreen [_westLocationX,_westLocationY,_zLocation];
-		   _westDisplayText = "W";
-		   (_dspl displayCtrl 2020664) ctrlSetStructuredText parseText _westDisplayText;
-		   (_dspl displayCtrl 2020664) ctrlSetPosition _westOnDisplayPos;
-		   (_dspl displayCtrl 2020664) ctrlCommit 0;
- 
-		   //=====EAST
-		   _eastOnDisplayPos = worldToScreen [_eastLocationX,_eastLocationY,_zLocation];
-		   _eastDisplayText = "E";
-		   (_dspl displayCtrl 2020665) ctrlSetStructuredText parseText _eastDisplayText;
-		   (_dspl displayCtrl 2020665) ctrlSetPosition _eastOnDisplayPos;
-		   (_dspl displayCtrl 2020665) ctrlCommit 0;*/
+_north = ["RscText", "N", 0, 0, 0.1, 0.1] call _addCtrl;
+//=====NORTH
+_northOnDisplayPos = worldToScreen [_northLocationX,_northLocationY,_zLocation];
+_northDisplayText = "<t align='LEFT' valign='TOP' color='#FF0000' size='1.2' >N</t>";
+_north ctrlSetStructuredText parseText _northDisplayText;
+_north ctrlSetPosition _northOnDisplayPos;
+_north ctrlCommit 0;
+
+//=====SOUTH
+_southOnDisplayPos = worldToScreen [_southLocationX,_southLocationY,_zLocation];
+_southDisplayText = "<t align='LEFT' valign='TOP' color='#00FF00' size='1.2' >S</t>";
+_south = ["RscText", "S", 0, 0, 0.1, 0.1] call _addCtrl;
+_south ctrlSetStructuredText parseText _southDisplayText;
+_south ctrlSetPosition _southOnDisplayPos;
+_south ctrlCommit 0;
+
+//=====WEST
+_westOnDisplayPos = worldToScreen [_westLocationX,_westLocationY,_zLocation];
+_westDisplayText = "<t align='LEFT' valign='TOP' color='#00FF00' size='1.2' >W</t>";
+_west = ["RscText", "W", 0, 0, 0.1, 0.1] call _addCtrl;
+_west ctrlSetStructuredText parseText _westDisplayText;
+_west ctrlSetPosition _westOnDisplayPos;
+_west ctrlCommit 0;
+
+//=====EAST
+_eastOnDisplayPos = worldToScreen [_eastLocationX,_eastLocationY,_zLocation];
+_eastDisplayText = "<t align='LEFT' valign='TOP' color='#00FF00' size='1.2' >E</t>";
+_east = ["RscText", "E", 0, 0, 0.1, 0.1] call _addCtrl;
+_east ctrlSetStructuredText parseText _eastDisplayText;
+_east ctrlSetPosition _eastOnDisplayPos;
+_east ctrlCommit 0;
+
+sleep 0.1;
+{
+		ctrlDelete _x;
+} foreach _controls;
+};
+};
+};
