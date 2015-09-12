@@ -7,14 +7,15 @@ class Mission
 		"a3_characters_f",
 		"a3_map_stratis",
 		"lop_faction_racs",
-		"A3_Air_F_Heli_Light_01"
+		"A3_Air_F_Heli_Light_01",
+		"aia_chernarus_config"
 	};
 	addOnsAuto[]=
 	{
 		"A3_Characters_F_BLUFOR",
 		"a3_characters_f",
 		"A3_Air_F_Heli_Light_01",
-		"a3_map_stratis"
+		"aia_chernarus_config"
 	};
 	randomSeed=3478773;
 	class Intel
@@ -46,18 +47,18 @@ class Mission
 				items=2;
 				class Item0
 				{
-					position[]={1765.2025,5.5,5692.0146};
+					position[]={4324.4551,339,10651.021};
 					id=0;
 					side="WEST";
-					vehicle="B_Soldier_F";
+					vehicle="B_spotter_F";
 					player="PLAYER COMMANDER";
 					leader=1;
 					skill=0.60000002;
+					text="a";
 				};
 				class Item1
 				{
-					position[]={1790.0575,5.5,5758.3599};
-					azimut=225.711;
+					position[]={4322.7354,339,10618.27};
 					offsetY=50;
 					special="FLY";
 					id=1;
@@ -75,11 +76,12 @@ class Intro
 {
 	addOns[]=
 	{
-		"a3_map_stratis"
+		"a3_map_stratis",
+		"aia_chernarus_config"
 	};
 	addOnsAuto[]=
 	{
-		"a3_map_stratis"
+		"aia_chernarus_config"
 	};
 	randomSeed=10042121;
 	class Intel
@@ -105,11 +107,12 @@ class OutroWin
 {
 	addOns[]=
 	{
-		"a3_map_stratis"
+		"a3_map_stratis",
+		"aia_chernarus_config"
 	};
 	addOnsAuto[]=
 	{
-		"a3_map_stratis"
+		"aia_chernarus_config"
 	};
 	randomSeed=13863436;
 	class Intel
@@ -135,11 +138,12 @@ class OutroLoose
 {
 	addOns[]=
 	{
-		"a3_map_stratis"
+		"a3_map_stratis",
+		"aia_chernarus_config"
 	};
 	addOnsAuto[]=
 	{
-		"a3_map_stratis"
+		"aia_chernarus_config"
 	};
 	randomSeed=8453786;
 	class Intel

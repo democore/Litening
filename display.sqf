@@ -1,7 +1,6 @@
-
-
-LTN2_TGP_TGT = player;
-LTN2_NULLTGT = false;
+LTN2_TGP_TGT = objNull;
+LTN2_NULLTGT = true;
+LTN2_ZOOM = 0;
 LTN2_fncGetTgtCoords =
 {
 		_tgt_coords = format["%1",[0,0,0]];
@@ -25,16 +24,85 @@ LTN2_fncGetTgtDist =
 		_tgt_dist
 };
 
-LTN2_ZOOM = -0.5;
+LTN2_fncThreeSixtyHelper = {
+	/*
+	Param 0: 360° number to work with
+	Param 1: Operand + number
+	Return: Number between 0-359
+	
+	Function to add substract angles
+	*/
+	private["_operand1_num","_operand2_num","_tmp_num","_tmp_mod_num","_ret_num"];
+	_operand1_num = _this select 0;
+	_operand2_num = _this select 1;
+	_tmp_num = _operand1_num + _operand2_num;
+	_ret_num = 0;
+	if (_tmp_num < 360 && _tmp_num >= 0) then {
+		_ret_num = _tmp_num;
+	} else {
+		_tmp_mod_num = _tmp_num mod 360;
+		if (_tmp_mod_num > 0) then {
+			_ret_num = _tmp_mod_num;
+		} else {
+			_ret_num = 360 + _tmp_mod_num;
+		};
+	};
+	_ret_num 
+};
+
+LTN2_yaw = 0;
+LTN2_pitch = 90;
+LTN2_fnc_getCircleCoords = compile preprocessFile "fnc_getCircleCoords.sqf";
+LTN2_fncSlewLeft = 
+{
+	LTN2_yaw = [LTN2_yaw, 1] call LTN2_fncThreeSixtyHelper;
+};
+LTN2_fncSlewRight = 
+{
+	LTN2_yaw = [LTN2_yaw, -1] call LTN2_fncThreeSixtyHelper;
+};
+LTN2_fncSlewUp =
+{
+		//FIXME MAKE THIS SAFE
+		LTN2_pitch = LTN2_pitch - 1
+};
+LTN2_fncSlewDown =
+{
+		//FIXME MAKE THIS SAFE
+		LTN2_pitch = LTN2_pitch + 1
+};
+LTN2_fncToggleLaser = {};
+LTN2_fncTgpReset = {};
+LTN2_fncTgpPrevDL = {};
+LTN2_fncTgpNextDL = {};
+LTN2_fncLockGround = {};
+LTN2_fncLockTgt = {};
+LTN2_fncUnlock = {};
 
 LTN2_fncZoomIn = 
-{
-	LTN2_ZOOM = LTN2_ZOOM - 0.1;
+{	
+	if (LTN2_ZOOM > -0.95) then {
+		LTN2_ZOOM = LTN2_ZOOM - 0.025;
+	} else {
+		LTN2_ZOOM = LTN2_ZOOM;
+	};
+	//FIXME ugly shit. THERE MUST BE A BETTER WAY!
+	if (LTN2_ZOOM < -0.95) then {
+		LTN2_ZOOM = -0.95;
+	};
 };
 
 LTN2_fncZoomOut = 
 {
-	LTN2_ZOOM = LTN2_ZOOM + 0.1;
+	if (LTN2_ZOOM < 0) then {
+		LTN2_ZOOM = LTN2_ZOOM + 0.025;
+	} else {
+		LTN2_ZOOM = LTN2_ZOOM;
+	};
+	//FIXME ugly shit. THERE MUST BE A BETTER WAY!
+	if (LTN2_ZOOM > 0) then {
+		LTN2_ZOOM = 0;
+	};
 };
 		   
 _controls = [];
@@ -482,16 +550,29 @@ _cameras = _cameras + [cam];
 
 FOV = 0.1;
 XYZ = [0,0,0];
+LTN2_MAXZOOM = -2000;
  
 _handler = addMissionEventHandler ["Draw3D", {
+		_intern_tgt = objNull;
+		//XYZ = [(getPosASL air), LTN2_yaw, LTN2_ZOOM * LTN2_MAXZOOM] call LTN2_fnc_getCircleCoords;
+		if (LTN2_NULLTGT) then {
+			_z = (round abs ((air call BIS_fnc_getPitchBank) select 0)) + LTN2_pitch;
+			__x = [LTN2_yaw, getDir air] call LTN2_fncThreeSixtyHelper;
+			LTN2_TGP_TGT = [(getPosASL air), __x, (LTN2_ZOOM * LTN2_MAXZOOM) + 5, _z] call LTN2_fnc_getCircleCoords;
+		};
 		uav lockCameraTo [LTN2_TGP_TGT, [0]];
+		if (typename LTN2_TGP_TGT == "OBJECT") then {
+			_intern_tgt = getPosASL LTN2_TGP_TGT;
+		} else {
+			_intern_tgt = LTN2_TGP_TGT;
+		};
 		if (LTN2_ZOOM != 0) then {
 				if (!LTN2_NULLTGT) then {
-						diff = (getposasl air) vectorDiff (getposasl LTN2_TGP_TGT);
+						diff = (getposasl air) vectorDiff _intern_tgt;
 						zooom = [(diff select 0) * LTN2_ZOOM,(diff select 1) * LTN2_ZOOM,(diff select 2) * LTN2_ZOOM];
 						uav attachTo [air, zooom];
 				} else {
-						uav attachTo [air, ([0,0,-1] vectorAdd XYZ)];
+						uav attachTo [air, [0,(LTN2_ZOOM * LTN2_MAXZOOM),-1]];
 				}
 		} else {
 				uav attachTo [air, [0,0,-1]];
@@ -502,7 +583,7 @@ _handler = addMissionEventHandler ["Draw3D", {
 		_up = _dir vectorCrossProduct [-(_dir select 1), _dir select 0, 0];
 		cam setVectorDirAndUp [[(_dir select 0), _dir select 1, _dir select 2] , _up];
 }];
-
+/*
 sleep 10;
 {
 		ctrlDelete _x;
@@ -517,3 +598,4 @@ LTN2_active = false;
 
 deleteVehicle uav;
 removeMissionEventHandler ["Draw3D",_handler];
+*/
