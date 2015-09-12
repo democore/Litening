@@ -1,4 +1,6 @@
-LTN2_TGP_TGT = objNull;
+LTN2_DEBUG = true;
+
+LTN2_TGP_TGT = player;
 LTN2_NULLTGT = true;
 LTN2_ZOOM = 0;
 LTN2_fncGetTgtCoords =
@@ -116,30 +118,38 @@ if (hasInterface) then
 		{
 			waitUntil {time > 0};
 			disableSerialization;
+			
+			private ["_ctrlIdCount", "_addCtrl", "_mainSize", "_screenWidth", "_screenHeight",
+					 "_baseX", "_baseY", "_rightRenderSurface", "_alpha", "_LeftRightDistance",
+					 "_BottomTopDistance", "_leftBorder", "_rightBorder", "_topBorder", "_bottomBorder",
+					 "_borderHeight", "_borderWidht", "_upperBorderRSC", "_bottomBorderRSC", "_LeftBorderRSC",
+					 "_rightBorderRSC"];
+			
 			_ctrlIdCount = 1000;
 			//time Calculation
 			LTN2_fncGetTime =
 			{
-					_hour = floor daytime;
-					_strHour = str(_hour);
-					if(_hour < 10) then
-					{
-							_strHour = format["0%1", _hour];
-					};
-					_minute = floor ((daytime - _hour) * 60);
-					_strMinute = str(_minute);
-					if(_minute < 10) then
-					{
-							_strMinute = format["0%1", _minute];
-					};
-					_second = floor (((((daytime) - (_hour))*60) - _minute)*60);
-					_strSecond = str(_second);
-					if(_second < 10) then
-					{
-							_strSecond = format["0%1", _second];
-					};
-					_time24 = format ["%1:%2:%3",_strHour,_strMinute,_strSecond];
-					_time24
+				private ["_hour", "_strHour", "_minute", "_strMinute", "_second", "_strSecond", "_time24"];
+				_hour = floor daytime;
+				_strHour = str(_hour);
+				if(_hour < 10) then
+				{
+						_strHour = format["0%1", _hour];
+				};
+				_minute = floor ((daytime - _hour) * 60);
+				_strMinute = str(_minute);
+				if(_minute < 10) then
+				{
+						_strMinute = format["0%1", _minute];
+				};
+				_second = floor (((((daytime) - (_hour))*60) - _minute)*60);
+				_strSecond = str(_second);
+				if(_second < 10) then
+				{
+						_strSecond = format["0%1", _second];
+				};
+				_time24 = format ["%1:%2:%3",_strHour,_strMinute,_strSecond];
+				_time24
 			};
 		   
 			_addCtrl =
@@ -207,6 +217,9 @@ if (hasInterface) then
 			_rightBorderRSC = ["RscText", "", _rightBorder, _topBorder, _borderWidht, _borderHeight] call _addCtrl;
 			_rightBorderRSC ctrlSetBackgroundColor [0, 0.5, 0, _alpha];
 		   
+			private ["_size", "_whiteSize", "_distance", "_BottomDistance", "_LeftDistance", "_h", "_w", "_textX", 
+					 "_textY", "_textW"];
+		   
 			//Bottom Texts
 			_size = 0.025 * (2 - _mainSize);
 			_whiteSize = 0.035 * (2 - _mainSize);
@@ -214,10 +227,11 @@ if (hasInterface) then
 			_BottomDistance = 0.003;
 			_LeftDistance = 0.01;
 			_h = _screenHeight / 16;
-		   
 			_w = _screenWidth / 11;
+			
 			_textX = _baseX + _distance * 0 + _LeftDistance;
 			_textY = _baseY + _screenHeight - (_h + _BottomDistance);
+			private ["_DIR"];
 			_DIR = ["RscText", "000", _textX, _textY, _w, _h] call _addCtrl;
 			_DIR ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_DIR ctrlSetTextColor [0, 1, 0, _alpha];
@@ -226,6 +240,7 @@ if (hasInterface) then
 		   
 			_w = _screenWidth / 9.5;
 			_textX = _baseX + _distance * 1 + _LeftDistance;
+			private ["_MSG"];
 			_MSG = ["RscText", "MSG", _textX, _textY, _w, _h] call _addCtrl;
 			_MSG ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_MSG ctrlSetTextColor [0, 1, 0, _alpha];
@@ -234,6 +249,7 @@ if (hasInterface) then
 		   
 			_w = _screenWidth / 9.5;
 			_textX = _baseX + _distance * 2 + _LeftDistance;
+			private ["_TGP"];
 			_TGP = ["RscText", "TGP", _textX, _textY, _w, _h] call _addCtrl;
 			_TGP ctrlSetBackgroundColor [0, 1, 0, _alpha];
 			_TGP ctrlSetTextColor [0, 0, 0, _alpha];
@@ -242,6 +258,7 @@ if (hasInterface) then
 		   
 			_w = _screenWidth / 9.5;
 			_textX = _baseX + _distance * 3 + _LeftDistance;
+			private ["_CDU"];
 			_CDU = ["RscText", "CDU", _textX, _textY, _w, _h] call _addCtrl;
 			_CDU ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_CDU ctrlSetTextColor [0, 1, 0, _alpha];
@@ -250,6 +267,7 @@ if (hasInterface) then
 		   
 			_w = _screenWidth / 8;
 			_textX = _baseX + _distance * 4 + _LeftDistance;
+			private ["_STAT"];
 			_STAT = ["RscText", "STAT", _textX, _textY, _w, _h] call _addCtrl;
 			_STAT ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_STAT ctrlSetTextColor [0, 1, 0, _alpha];
@@ -258,6 +276,7 @@ if (hasInterface) then
 		   
 			_w = _screenWidth / 8;
 			_textX = _baseX + _distance * 5 + _LeftDistance;
+			private ["_DCLT"];
 			_DCLT = ["RscText", "DCLT", _textX, _textY, _w, _h] call _addCtrl;
 			_DCLT ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_DCLT ctrlSetTextColor [0, 1, 0, _alpha];
@@ -268,6 +287,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 11;
 			_textX = _baseX + (_LeftDistance + 0.01);
 			_textY = _baseY + _screenHeight - _screenHeight/2.15;
+			private ["_LSS"];
 			_LSS = ["RscText", "LSS", _textX, _textY, _textW, _h] call _addCtrl;
 			_LSS ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_LSS ctrlSetTextColor [0, 1, 0, _alpha];
@@ -277,6 +297,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 8.5;
 			_textX = _baseX + (_LeftDistance + 0.01);
 			_textY = _baseY + _screenHeight - _screenHeight/1.75;
+			private ["_GAIN"];
 			_GAIN = ["RscText", "GAIN", _textX, _textY, _textW, _h] call _addCtrl;
 			_GAIN ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_GAIN ctrlSetTextColor [0, 1, 0, _alpha];
@@ -286,6 +307,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 13;
 			_textX = _baseX + (_LeftDistance);
 			_textY = _baseY + _screenHeight - _screenHeight/1.35;
+			private ["_BRIGHT"];
 			_BRIGHT = ["RscText", "3G", _textX, _textY, _textW, _h] call _addCtrl;
 			_BRIGHT ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_BRIGHT ctrlSetTextColor [0, 1, 0, _alpha];
@@ -296,6 +318,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 10;
 			_textX = _baseX + _distance * 0 + _LeftDistance;
 			_textY = _baseY + _screenHeight / 60;
+			private ["_ZOOM"];
 			_ZOOM = ["RscText", "0Z", _textX, _textY, _textW, _h] call _addCtrl;
 			_ZOOM ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_ZOOM ctrlSetTextColor [0, 1, 0, _alpha];
@@ -305,6 +328,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 8.5;
 			_textX = _baseX + _distance * 0 + _LeftDistance;
 			_textY = _baseY + _screenHeight / 12;
+			private ["_NARO"];
 			_NARO = ["RscText", "NARO", _textX, _textY, _textW, _h] call _addCtrl;
 			_NARO ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_NARO ctrlSetTextColor [0, 1, 0, _alpha];
@@ -314,6 +338,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 8.5;
 			_textX = _baseX + _distance * 1 + _LeftDistance;
 			_textY = _baseY + _screenHeight / 60;
+			private ["_CNTL"];
 			_CNTL = ["RscText", "CNTL", _textX, _textY, _textW, _h] call _addCtrl;
 			_CNTL ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_CNTL ctrlSetTextColor [0, 1, 0, _alpha];
@@ -322,6 +347,7 @@ if (hasInterface) then
 		   
 			_textW = _screenWidth / 11;
 			_textX = _baseX + _distance * 2 + _LeftDistance;
+			private ["_AG"];
 			_AG = ["RscText", "A-G", _textX, _textY, _textW, _h] call _addCtrl;
 			_AG ctrlSetBackgroundColor [0, 1, 0, _alpha];
 			_AG ctrlSetTextColor [0, 0, 0, _alpha];
@@ -330,6 +356,7 @@ if (hasInterface) then
 		   
 			_textW = _screenWidth / 8.5;
 			_textX = _baseX + _distance * 3 + _LeftDistance;
+			private ["_STBY"];
 			_STBY = ["RscText", "STBY", _textX, _textY, _textW, _h] call _addCtrl;
 			_STBY ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_STBY ctrlSetTextColor [0, 1, 0, _alpha];
@@ -338,6 +365,7 @@ if (hasInterface) then
 		   
 			_textW = _screenWidth / 11;
 			_textX = _baseX + _distance * 4 + _LeftDistance;
+			private ["_AA"];
 			_AA = ["RscText", "A-A", _textX, _textY, _textW, _h] call _addCtrl;
 			_AA ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_AA ctrlSetTextColor [0, 1, 0, _alpha];
@@ -346,6 +374,7 @@ if (hasInterface) then
 		   
 			_textW = _screenWidth / 8.5;
 			_textX = _baseX + _distance * 5 + _LeftDistance;
+			private ["_TST"];
 			_TST = ["RscText", "0TST", _textX, _textY, _textW, _h] call _addCtrl;
 			_TST ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_TST ctrlSetTextColor [0, 1, 0, _alpha];
@@ -354,6 +383,7 @@ if (hasInterface) then
 		   
 			_textW = _screenWidth / 8;
 			_textX = _baseX + _distance * 6 + _LeftDistance;
+			private ["_WHOT"];
 			_WHOT = ["RscText", "WHOT", _textX, _textY, _textW, _h] call _addCtrl;
 			_WHOT ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_WHOT ctrlSetTextColor [0, 1, 0, _alpha];
@@ -363,6 +393,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 8;
 			_textY = _baseY + _screenHeight / 12;
 			_textX = _baseX + _distance * 6 + _LeftDistance;
+			private ["_HEIGHT"];
 			_HEIGHT = ["RscText", "4799", _textX, _textY, _textW, _h] call _addCtrl;
 			_HEIGHT ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_HEIGHT ctrlSetTextColor [0, 1, 0, _alpha];
@@ -372,6 +403,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 10;
 			_textY = _baseY + _screenHeight / 5;
 			_textX = _baseX + _distance * 6 + _LeftDistance;
+			private ["_LSSe"];
 			_LSSe = ["RscText", "LSSe", _textX, _textY, _textW, _h] call _addCtrl;
 			_LSSe ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_LSSe ctrlSetTextColor [0, 1, 0, _alpha];
@@ -381,6 +413,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 10;
 			_textY = _baseY + _screenHeight / 3;
 			_textX = _baseX + _distance * 6 + _LeftDistance;
+			private ["_LSR"];
 			_LSR = ["RscText", "LSR", _textX, _textY, _textW, _h] call _addCtrl;
 			_LSR ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_LSR ctrlSetTextColor [0, 1, 0, _alpha];
@@ -393,6 +426,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 6;
 			_textX = _baseX + _LeftDistance;
 			_textY = _baseY + _screenHeight - _screenHeight/3.5;
+			private ["_TIME"];
 			_TIME = ["RscText", call LTN2_fncGetTime, _textX, _textY, _textW, _h] call _addCtrl;
 			_TIME ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_TIME ctrlSetTextColor [0, 1, 0, _alpha];
@@ -403,6 +437,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 2.2;
 			_textX = (_baseX + _screenWidth / 2) - _textW/2;
 			_textY = _baseY + _screenHeight - _screenHeight/6;
+			private ["_CORD"];
 			_CORD = ["RscText", call LTN2_fncGetTgtCoords, _textX, _textY, _textW, _h] call _addCtrl;
 			_CORD ctrlSetBackgroundColor [0, 0, 0, _alpha];
 			_CORD ctrlSetTextColor [0, 1, 0, _alpha];
@@ -413,6 +448,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 20;
 			_textX = (_baseX + _screenWidth / 2) + _textW/2;
 			_textY = _baseY + _screenHeight - _screenHeight/3.5;
+			private ["_LASER"];
 			_LASER = ["RscText", "L", _textX, _textY, _textW, _h] call _addCtrl;
 			_LASER ctrlSetTextColor [1, 1, 1, _alpha];
 			_LASER ctrlSetFont "TahomaB";
@@ -422,6 +458,7 @@ if (hasInterface) then
 			_textW = _screenWidth / 6;
 			_textX = (_baseX + _screenWidth ) - (_textW + _screenWidth / 8);
 			_textY = _baseY + _screenHeight - _screenHeight/3.5;
+			private ["_POTDISTANCE"];
 			_POTDISTANCE = ["RscText", call LTN2_fncGetTgtDist, _textX, _textY, _textW, _h] call _addCtrl;
 			_POTDISTANCE ctrlSetTextColor [1, 1, 1, _alpha];
 			_POTDISTANCE ctrlSetFont "TahomaB";
@@ -429,6 +466,8 @@ if (hasInterface) then
 		   
 		   
 			///crosshair
+			private ["_crosshairLength", "_crossHairGapSize", "_crosshairGapWidth", "_crosshairGapHeight", "_crosshairWidth", 
+					 "_adjust"];
 			_crosshairLength = 8;
 			_crossHairGapSize = 30;
 			_crosshairGapWidth = _screenWidth / _crossHairGapSize;
@@ -440,16 +479,20 @@ if (hasInterface) then
 			_textW = _screenWidth / 8;
 			_textX = (_baseX + _screenWidth / 2) + _crosshairGapWidth + _screenWidth / _crosshairLength;
 			_textY = _baseY + _screenHeight/2 - _screenHeight / 20;
+			private ["_SCALE"];
 			_SCALE = ["RscText", "23M", _textX, _textY, _textW, _h] call _addCtrl;
 			_SCALE ctrlSetTextColor [1, 1, 1, _alpha];
 			_SCALE ctrlSetFont "TahomaB";
 			_SCALE ctrlSetFontHeight _whiteSize;
 		   
 			//main crosshair
+			private ["_crosshairX", "_crosshairY", "_crosshairW", "_crosshairH"];
 			_crosshairX = _baseX + _screenWidth / 2;
 			_crosshairY = ((_baseY + _screenHeight / 2) - _crosshairGapHeight) - _screenHeight / _crosshairLength;
 			_crosshairW = _crosshairWidth * 0.6666;
 			_crosshairH = _screenHeight / _crosshairLength;
+			
+			private ["_upperCrosshair"];
 			_upperCrosshair = ["RscText", "", _crosshairX, _crosshairY, _crosshairW, _crosshairH] call _addCtrl;
 			_upperCrosshair ctrlSetBackgroundColor [1, 1, 1, _alpha];
 		   
@@ -457,6 +500,7 @@ if (hasInterface) then
 			_crosshairY = _baseY + _screenHeight / 2;
 			_crosshairW = _screenWidth / _crosshairLength;
 			_crosshairH = _crosshairWidth;
+			private ["_leftCrosshair"];
 			_leftCrosshair = ["RscText", "", _crosshairX, _crosshairY, _crosshairW, _crosshairH] call _addCtrl;
 			_leftCrosshair ctrlSetBackgroundColor [1, 1, 1, _alpha];
 		   
@@ -464,6 +508,7 @@ if (hasInterface) then
 			_crosshairY = _baseY + _screenHeight / 2;
 			_crosshairW = _screenWidth / _crosshairLength;
 			_crosshairH = _crosshairWidth;
+			private ["_rightCrosshair"];
 			_rightCrosshair = ["RscText", "", _crosshairX, _crosshairY, _crosshairW, _crosshairH] call _addCtrl;
 			_rightCrosshair ctrlSetBackgroundColor [1, 1, 1, _alpha];
 		   
@@ -471,14 +516,17 @@ if (hasInterface) then
 			_crosshairY = (_baseY + _screenHeight / 2) + _crosshairGapHeight + 0.004;
 			_crosshairW = _crosshairWidth * 0.6666;
 			_crosshairH = _screenHeight / _crosshairLength;
+			private ["_lowerCrosshair"];
 			_lowerCrosshair = ["RscText", "", _crosshairX, _crosshairY, _crosshairW, _crosshairH] call _addCtrl;
 			_lowerCrosshair ctrlSetBackgroundColor [1, 1, 1, _alpha];
 		   
 			//middle square part
+			private ["_squareX", "_squareY", "_squareW", "_squareH"];
 			_squareX = _baseX + _screenWidth / 2 - _crosshairGapWidth;
 			_squareY = _baseY + _screenHeight / 2 - _crosshairGapHeight;
 			_squareW = _crosshairGapWidth * 2;
 			_squareH = _crosshairWidth;
+			private ["_upperSquare"];
 			_upperSquare = ["RscText", "", _squareX, _squareY, _squareW, _squareH] call _addCtrl;
 			_upperSquare ctrlSetBackgroundColor [1, 1, 1, _alpha];
 		   
@@ -486,6 +534,7 @@ if (hasInterface) then
 			_squareY = _baseY + _screenHeight / 2 - _crosshairGapHeight + _crosshairWidth;
 			_squareW = _crosshairWidth * 0.6666;
 			_squareH = _crosshairGapHeight * 2 - _crosshairWidth;
+			private ["_leftSquare"];
 			_leftSquare = ["RscText", "", _squareX, _squareY, _squareW, _squareH] call _addCtrl;
 			_leftSquare ctrlSetBackgroundColor [1, 1, 1, _alpha];
 		   
@@ -493,6 +542,7 @@ if (hasInterface) then
 			_squareY = _baseY + _screenHeight / 2 + _crosshairGapHeight;
 			_squareW = _crosshairGapWidth * 2;
 			_squareH = _crosshairWidth;
+			private ["_lowerSquare"];
 			_lowerSquare = ["RscText", "", _squareX, _squareY, _squareW, _squareH] call _addCtrl;
 			_lowerSquare ctrlSetBackgroundColor [1, 1, 1, _alpha];
 		   
@@ -500,6 +550,7 @@ if (hasInterface) then
 			_squareY = _baseY + _screenHeight / 2 - _crosshairGapHeight + _crosshairWidth;
 			_squareW = _crosshairWidth * 0.6666;
 			_squareH = _crosshairGapHeight * 2 - _crosshairWidth;
+			private ["_rightSquare"];
 			_rightSquare = ["RscText", "", _squareX, _squareY, _squareW, _squareH] call _addCtrl;
 			_rightSquare ctrlSetBackgroundColor [1, 1, 1, _alpha];
 		   
@@ -509,6 +560,7 @@ if (hasInterface) then
 			[_TIME, _CORD, _POTDISTANCE, _LASER] spawn 
 			{ 
 				disableSerialization;
+				private ["_timeRsc", "_cordRsc", "_potdistanceRsc", "_laserRsc"];
 				_timeRsc = _this select 0;
 				_cordRsc = _this select 1;
 				_potdistanceRsc = _this select 2;
@@ -583,19 +635,21 @@ _handler = addMissionEventHandler ["Draw3D", {
 		_up = _dir vectorCrossProduct [-(_dir select 1), _dir select 0, 0];
 		cam setVectorDirAndUp [[(_dir select 0), _dir select 1, _dir select 2] , _up];
 }];
-/*
-sleep 10;
+
+if(LTN2_DEBUG) then
 {
-		ctrlDelete _x;
-} foreach _controls;
+	sleep 10;
+	{
+			ctrlDelete _x;
+	} foreach _controls;
 
-{
-		_x cameraEffect ["terminate","back"];
-		camDestroy _x;
-} foreach _cameras;
+	{
+			_x cameraEffect ["terminate","back"];
+			camDestroy _x;
+	} foreach _cameras;
 
-LTN2_active = false;
+	LTN2_active = false;
 
-deleteVehicle uav;
-removeMissionEventHandler ["Draw3D",_handler];
-*/
+	deleteVehicle uav;
+	removeMissionEventHandler ["Draw3D",_handler];
+};
