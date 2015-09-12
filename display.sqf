@@ -1,13 +1,12 @@
 
 
-TGP_TGT = player;
-nulltgt = false;
-TGT_DIST = format["%1 M",(air distance TGP_TGT)];
+LTN2_TGP_TGT = player;
+LTN2_NULLTGT = false;
 LTN2_fncGetTgtCoords =
 {
 		_tgt_coords = format["%1",[0,0,0]];
-		if (!nulltgt) then {
-				_tgt_coords = format["%1", getPosASL TGP_TGT];
+		if (!LTN2_NULLTGT) then {
+				_tgt_coords = format["%1", getPosASL LTN2_TGP_TGT];
 		};
 		_tgt_coords
 };
@@ -16,8 +15,8 @@ LTN2_fncGetTgtDist =
 {
 		private["_tgt_dist","_int_dist"];
 		_tgt_dist = format["%1",0];
-		if (!nulltgt) then {
-				_int_dist = round(air distance TGP_TGT);
+		if (!LTN2_NULLTGT) then {
+				_int_dist = round(air distance LTN2_TGP_TGT);
 				if (_int_dist > 10000) then {
 					_int_dist = 9999;
 				};
@@ -26,22 +25,22 @@ LTN2_fncGetTgtDist =
 		_tgt_dist
 };
 
-ZOOM = -0.5;
+LTN2_ZOOM = -0.5;
 
 LTN2_fncZoomIn = 
 {
-	ZOOM = ZOOM - 0.1;
+	LTN2_ZOOM = LTN2_ZOOM - 0.1;
 };
 
 LTN2_fncZoomOut = 
 {
-	ZOOM = ZOOM + 0.1;
+	LTN2_ZOOM = LTN2_ZOOM + 0.1;
 };
 		   
 _controls = [];
 _cameras = [];
-active = true;
-laserActive = true;
+LTN2_active = true;
+LTN2_laserActive = true;
  
 if (hasInterface) then
 {
@@ -446,19 +445,19 @@ if (hasInterface) then
 				_cordRsc = _this select 1;
 				_potdistanceRsc = _this select 2;
 				_laserRsc = _this select 3;
-				while {active} do
+				while {LTN2_active} do
 				{
 					//keep time updated
 					_timeRsc ctrlSetText (call LTN2_fncGetTime);
 					
-					//TGP_TGT <- Target
+					//LTN2_TGP_TGT <- Target
 					_cordRsc ctrlSetText (call LTN2_fncGetTgtCoords);
 					
 					//Distance to the target
 					_potdistanceRsc ctrlSetText (call LTN2_fncGetTgtDist);
 					
-					//Is laser active?
-					_laserRsc ctrlShow laserActive;
+					//Is laser LTN2_active?
+					_laserRsc ctrlShow LTN2_laserActive;
 					
 					
 					sleep 0.5;
@@ -485,11 +484,11 @@ FOV = 0.1;
 XYZ = [0,0,0];
  
 _handler = addMissionEventHandler ["Draw3D", {
-		uav lockCameraTo [TGP_TGT, [0]];
-		if (ZOOM != 0) then {
-				if (!nulltgt) then {
-						diff = (getposasl air) vectorDiff (getposasl TGP_TGT);
-						zooom = [(diff select 0) * ZOOM,(diff select 1) * ZOOM,(diff select 2) * ZOOM];
+		uav lockCameraTo [LTN2_TGP_TGT, [0]];
+		if (LTN2_ZOOM != 0) then {
+				if (!LTN2_NULLTGT) then {
+						diff = (getposasl air) vectorDiff (getposasl LTN2_TGP_TGT);
+						zooom = [(diff select 0) * LTN2_ZOOM,(diff select 1) * LTN2_ZOOM,(diff select 2) * LTN2_ZOOM];
 						uav attachTo [air, zooom];
 				} else {
 						uav attachTo [air, ([0,0,-1] vectorAdd XYZ)];
@@ -497,7 +496,7 @@ _handler = addMissionEventHandler ["Draw3D", {
 		} else {
 				uav attachTo [air, [0,0,-1]];
 		};
-		tgt_dist = format["%1 M",(air distance TGP_TGT)];
+		tgt_dist = format["%1 M",(air distance LTN2_TGP_TGT)];
 	   
 		_dir = (uav selectionPosition "PiP0_pos")  vectorFromTo (uav selectionPosition "PiP0_dir");
 		_up = _dir vectorCrossProduct [-(_dir select 1), _dir select 0, 0];
@@ -514,7 +513,7 @@ sleep 10;
 		camDestroy _x;
 } foreach _cameras;
 
-active = false;
+LTN2_active = false;
 
 deleteVehicle uav;
 removeMissionEventHandler ["Draw3D",_handler];
