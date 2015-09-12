@@ -460,68 +460,6 @@ if (hasInterface) then
 					sleep 0.5;
 				};
 			};
-		   
-		   
-			//raven -> GCScameraON2.sqf 397
-			// COMPASS DISPLAY
-		   /*_mavCurrentTarget = player;
-		   _markerMavCurrentTargetPos = visiblePositionASL _mavCurrentTarget;
-		   _compassSize = 1;
- 
-		   _northLocationX = _markerMavCurrentTargetPos select 0;
-		   _northLocationY = (_markerMavCurrentTargetPos select 1) + _compassSize;
-		   _southLocationX = _markerMavCurrentTargetPos select 0;
-		   _southLocationY = (_markerMavCurrentTargetPos select 1) - _compassSize;
-		   _westLocationX = (_markerMavCurrentTargetPos select 0) - _compassSize;
-		   _westLocationY = _markerMavCurrentTargetPos select 1;
-		   _eastLocationX = (_markerMavCurrentTargetPos select 0) + _compassSize;
-		   _eastLocationY = _markerMavCurrentTargetPos select 1;
-				_zLocation = 0;
-		   if (surfaceIsWater [visiblePositionASL _mavCurrentTarget select 0,visiblePositionASL _mavCurrentTarget select 1]) then
-		   {
-								_zLocation = visiblePositionASL _mavCurrentTarget select 2;
-		   } else
-		   {
-								_zLocation = visiblePosition _mavCurrentTarget select 2;
-		   };
- 
-		   //=====NORTH
-		   _northOnDisplayPos = worldToScreen [_northLocationX,_northLocationY,_zLocation];
-		   _northDisplayText = "N";
-		   hint format["x: %1, y: %2", _northOnDisplayPos select 0, _northOnDisplayPos select 1];
-		   _north = ["RscText", "N", _northOnDisplayPos select 0, _northOnDisplayPos select 1, 1, 1] call _addCtrl;
-		   (_dspl displayCtrl 2020662) ctrlSetStructuredText parseText _northDisplayText;
-		   (_dspl displayCtrl 2020662) ctrlSetPosition _northOnDisplayPos;
-		   (_dspl displayCtrl 2020662) ctrlCommit 0;
- 
-		   //=====SOUTH
-		   _southOnDisplayPos = worldToScreen [_southLocationX,_southLocationY,_zLocation];
-		   _southDisplayText = "S";
-		   (_dspl displayCtrl 2020663) ctrlSetStructuredText parseText _southDisplayText;
-		   (_dspl displayCtrl 2020663) ctrlSetPosition _southOnDisplayPos;
-		   (_dspl displayCtrl 2020663) ctrlCommit 0;
- 
-		   //=====WEST
-		   _westOnDisplayPos = worldToScreen [_westLocationX,_westLocationY,_zLocation];
-		   _westDisplayText = "W";
-		   (_dspl displayCtrl 2020664) ctrlSetStructuredText parseText _westDisplayText;
-		   (_dspl displayCtrl 2020664) ctrlSetPosition _westOnDisplayPos;
-		   (_dspl displayCtrl 2020664) ctrlCommit 0;
- 
-		   //=====EAST
-		   _eastOnDisplayPos = worldToScreen [_eastLocationX,_eastLocationY,_zLocation];
-		   _eastDisplayText = "E";
-		   (_dspl displayCtrl 2020665) ctrlSetStructuredText parseText _eastDisplayText;
-		   (_dspl displayCtrl 2020665) ctrlSetPosition _eastOnDisplayPos;
-		   (_dspl displayCtrl 2020665) ctrlCommit 0;*/
-			   
-			   
-			   
-			   
-			   
-			   
-			   
-								/**/
 		};
 };
  
@@ -529,8 +467,8 @@ uav = createVehicle ["B_UAV_01_F", getpos air, [], 0, "FLY"];
 uav allowdamage false;
 createVehicleCrew uav;
 uav attachTo [air, [0,0,-1]];
-uav hideObjectGlobal true;
-uav engineOn false;
+//uav hideObjectGlobal true;
+//uav engineOn false;
 
 cam = "camera" camCreate [0,0,0];
 cam cameraEffect ["Internal", "Back", "leftcam"];
