@@ -14,10 +14,14 @@ LTN2_fncGetTgtCoords =
  
 LTN2_fncGetTgtDist =
 {
-		//Muss noch umgebaut werden (max 10km oder sowas)
+		private["_tgt_dist","_int_dist"];
 		_tgt_dist = format["%1",0];
 		if (!nulltgt) then {
-				_tgt_dist = format["%1 M",round(air distance TGP_TGT)];
+				_int_dist = round(air distance TGP_TGT);
+				if (_int_dist > 10000) then {
+					_int_dist = 9999;
+				};
+				_tgt_dist = format["%1 M", _int_dist];
 		};
 		_tgt_dist
 };
